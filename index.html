@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پخش آنلاین فایل‌های شنیداری زبان انگلیسی دوازدهم | استاد سجاد زارع</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0070c0;
+      --primary-dark: #004c87;
+      --accent: #e74c3c;
+      --accent-green: #27ae60;
+      --bg: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-main: #2c3e50;
+      --text-muted: #7f8c8d;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 50px;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 112, 192, 0.25);
+    }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 720px;
+      margin: -20px auto 0;
+      padding: 0 16px;
+    }
+    .player-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .track-badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .track-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+    .track-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    audio {
+      width: 100%;
+      height: 48px;
+      border-radius: 24px;
+      outline: none;
+      margin-bottom: 16px;
+    }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+    .speed-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .speed-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .speed-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-green);
+      color: white;
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .download-btn:hover {
+      background: #219653;
+    }
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #334155;
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+    .track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .track-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .track-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .track-item.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .track-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .track-item-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .track-item-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .play-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .track-item:hover .play-icon, .track-item.active .play-icon {
+      background: var(--primary);
+      color: white;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>سامانه پخش آنلاین فایل‌های شنیداری زبان دوازدهم</h1>
+    <p>بر اساس کتاب درسی Vision 3 و تمامی آزمون‌های نهایی کشوری</p>
+    <div class="badge">دبیرستان استعدادهای درخشان شهید بهشتی | استاد سجاد زارع</div>
+  </header>
+
+  <div class="container">
+    
+    <!-- Active Player Card -->
+    <div class="player-card" id="playerCard">
+      <span class="track-badge" id="currentCategory">درس اول - آزمون نهایی</span>
+      <h2 class="track-title" id="currentTitle">در حال بارگذاری فایل صوتی...</h2>
+      <p class="track-desc" id="currentDesc">لطفاً چند لحظه صبر کنید یا از لیست زیر آزمون مورد نظر را انتخاب نمایید.</p>
+      
+      <audio id="audioPlayer" controls autoplay preload="metadata">
+        <source id="audioSource" src="" type="audio/mpeg">
+        مرورگر شما از تگ پخش صوت پشتیبانی نمی‌کند.
+      </audio>
+
+      <div class="controls-row">
+        <div class="speed-group">
+          <span style="font-size: 0.8rem; font-weight: 600;">سرعت:</span>
+          <button class="speed-btn" onclick="setSpeed(0.75)">0.75x</button>
+          <button class="speed-btn active" onclick="setSpeed(1.0)">1.0x</button>
+          <button class="speed-btn" onclick="setSpeed(1.25)">1.25x</button>
+        </div>
+        <a id="downloadLink" class="download-btn" href="#" download>
+          ⬇️ دانلود مستقیم فایل
+        </a>
+      </div>
+    </div>
+
+    <!-- Catalog Sections -->
+    <div class="section-title">درس اول (Sense of Appreciation)</div>
+    <div class="track-list" id="listL1"></div>
+
+    <div class="section-title">درس دوم (Look at the Future)</div>
+    <div class="track-list" id="listL2"></div>
+
+    <div class="section-title">درس سوم (Renewable Energy)</div>
+    <div class="track-list" id="listL3"></div>
+
+    <div class="section-title">آرشیو دوره‌های تکمیلی آزمون‌های نهایی کشوری</div>
+    <div class="track-list" id="listArchive"></div>
+
+    <footer>
+      تهیه و تدوین: استاد سجاد زارع | دبیر دبیرستان شهید بهشتی تربت حیدریه<br>
+      طراحی شده برای اسکن مستقیم بارکدهای جزوه جامع دوازدهم
+    </footer>
+
+  </div>
+
+  <script>
+    const tracks = {
+      // Lesson 1
+      "L1_Textbook_Conv1": {
+        title: "مکالمه ۱ کتاب درسی (کار و سلامتی - بهزاد و امین)",
+        category: "درس اول - مکالمه کتاب",
+        desc: "مکالمه بین بهزاد و امین پیرامون تعادل بین سلامت جسمی و فشارهای کاری (Lesson 1 Conversation 1).",
+        file: "L1_Textbook_Conv1.wav",
+        mime: "audio/wav",
+        section: "L1"
+      },
+      "L1_Textbook_Conv2": {
+        title: "مکالمه ۲ کتاب درسی (باشگاه ورزشی و علایق)",
+        category: "درس اول - مکالمه کتاب",
+        desc: "مکالمه درباره رفتن به باشگاه در روز جمعه و علاقه‌مندی به ورزش‌های کم‌تحرک (Lesson 1 Conversation 2).",
+        file: "L1_Textbook_Conv2.wav",
+        mime: "audio/wav",
+        section: "L1"
+      },
+      "Khordad1402": {
+        title: "آزمون نهایی خرداد ۱۴۰۲ (شنیداری بهزاد و امین)",
+        category: "درس اول - آزمون نهایی",
+        desc: "فایل صوتی رسمی آزمون نهایی سراسری خرداد ۱۴۰۲ (طرح سوالات مربوط به مکالمه بهزاد و امین).",
+        file: "Khordad1402.mp3",
+        mime: "audio/mpeg",
+        section: "L1"
+      },
+      "Dey1400": {
+        title: "آزمون نهایی دی ۱۴۰۰ (عماد و پدرش - احترام به والدین)",
+        category: "درس اول - آزمون نهایی",
+        desc: "فایل صوتی آزمون نهایی دی ۱۴۰۰ پیرامون تجربیات زندگی، احترام به سالمندان و گوش سپردن به والدین.",
+        file: "Dey1400.mp3",
+        mime: "audio/mpeg",
+        section: "L1"
+      },
+      "Khordad1400": {
+        title: "آزمون نهایی خرداد ۱۴۰۰ (شنیداری بخش واژگان و متن)",
+        category: "درس اول - آزمون نهایی",
+        desc: "فایل صوتی رسمی آزمون نهایی سراسری خرداد ۱۴۰۰ شامل مکالمات و سوالات چندگزینه‌ای شنیداری.",
+        file: "Khordad1400.mp3",
+        mime: "audio/mpeg",
+        section: "L1"
+      },
+      "Dey1403": {
+        title: "آزمون نهایی دی ۱۴۰۳ / ۱۴۰۴ (شنیداری رویا و مینا)",
+        category: "درس اول - آزمون نهایی",
+        desc: "فایل صوتی آزمون نهایی دی ماه پیرامون سبک زندگی، ورزش و بهبود عملکرد مغز.",
+        file: "Dey1403.mp3",
+        mime: "audio/mpeg",
+        section: "L1"
+      },
+
+      // Lesson 2
+      "L2_Textbook_Conv1": {
+        title: "مکالمه ۱ کتاب درسی (مهمانی تولد مینا و شرطی نوع ۲)",
+        category: "درس دوم - مکالمه کتاب",
+        desc: "مکالمه دعوت به مهمانی و جملات شرطی فرضی نوع دوم (Lesson 2 Conversation 1).",
+        file: "L2_Textbook_Conv1.wav",
+        mime: "audio/wav",
+        section: "L2"
+      },
+      "L2_Textbook_Conv2": {
+        title: "مکالمه ۲ کتاب درسی (دوست در تنگنا و پول اضطراری)",
+        category: "درس دوم - مکالمه کتاب",
+        desc: "مکالمه پس‌انداز پول، کمک به دوست نیازمند و ضرب‌المثل A friend in need (Lesson 2 Conversation 2).",
+        file: "L2_Textbook_Conv2.wav",
+        mime: "audio/wav",
+        section: "L2"
+      },
+      "Shahrivar1400": {
+        title: "آزمون نهایی شهریور ۱۴۰۰ (فرهنگ لغت و نحوه استفاده)",
+        category: "درس دوم - آزمون نهایی",
+        desc: "فایل صوتی آزمون شهریور ۱۴۰۰ پیرامون انواع فرهنگ لغت (یک‌زبانه/دوزبانه) و راهنمای علائم فونتیک.",
+        file: "Shahrivar1400.mp3",
+        mime: "audio/mpeg",
+        section: "L2"
+      },
+      "Shahrivar1401": {
+        title: "آزمون نهایی شهریور ۱۴۰۱ (شنیداری فناوری و آینده)",
+        category: "درس دوم - آزمون نهایی",
+        desc: "فایل صوتی رسمی آزمون سراسری شهریور ۱۴۰۱ پیرامون فناوری‌های نوین و تحولات آینده.",
+        file: "Shahrivar1401.m4a",
+        mime: "audio/mp4",
+        section: "L2"
+      },
+      "Khordad1403": {
+        title: "آزمون نهایی خرداد ۱۴۰۳ (مهارت‌های واژه‌آموزی)",
+        category: "درس دوم - آزمون نهایی",
+        desc: "فایل صوتی آزمون سراسری خرداد ۱۴۰۳ درباره راهبردهای خواندن و حدس زدن معنا از بافت جمله.",
+        file: "Khordad1403.mp3",
+        mime: "audio/mpeg",
+        section: "L2"
+      },
+
+      // Lesson 3
+      "L3_Textbook_Conv1": {
+        title: "مکالمه ۱ کتاب درسی (رستوران جدید و گذشته کامل)",
+        category: "درس سوم - مکالمه کتاب",
+        desc: "مکالمه پیرامون سفارش غذا و کاربرد زمان گذشته کامل Past Perfect (Lesson 3 Conversation 1).",
+        file: "L3_Textbook_Conv1.wav",
+        mime: "audio/wav",
+        section: "L3"
+      },
+      "L3_Textbook_Conv2": {
+        title: "مکالمه ۲ کتاب درسی (موزه دفاع مقدس و کارهای گذشته)",
+        category: "درس سوم - مکالمه کتاب",
+        desc: "مکالمه بازدید از موزه دفاع مقدس قبل از بازگشت به خانه (Lesson 3 Conversation 2).",
+        file: "L3_Textbook_Conv2.wav",
+        mime: "audio/wav",
+        section: "L3"
+      },
+      "Khordad1401": {
+        title: "آزمون نهایی خرداد ۱۴۰۱ (انرژی‌های تجدیدپذیر و باد)",
+        category: "درس سوم - آزمون نهایی",
+        desc: "مکالمه شیلا و سمیرا پیرامون توربین‌های بادی، سلول‌های خورشیدی و انرژی پاک.",
+        file: "Khordad1401.mp3",
+        mime: "audio/mpeg",
+        section: "L3"
+      },
+      "Dey1401": {
+        title: "آزمون نهایی دی ۱۴۰۱ (انرژی پاک و محیط زیست)",
+        category: "درس سوم - آزمون نهایی",
+        desc: "فایل صوتی آزمون دی ۱۴۰۱ پیرامون مدیریت مصرف منابع تجدیدپذیر و کاهش آلودگی هوا.",
+        file: "Dey1401.mp3",
+        mime: "audio/mpeg",
+        section: "L3"
+      },
+      "Dey1402": {
+        title: "آزمون نهایی دی ۱۴۰۲ (خودروهای برقی و پاک)",
+        category: "درس سوم - آزمون نهایی",
+        desc: "فایل صوتی آزمون دی ۱۴۰۲ پیرامون فناوری باتری‌های قابل شارژ در خودروهای برقی و هیبریدی.",
+        file: "Dey1402.mp3",
+        mime: "audio/mpeg",
+        section: "L3"
+      },
+      "Shahrivar1402": {
+        title: "آزمون نهایی شهریور ۱۴۰۲ (بحران منابع فسیلی)",
+        category: "درس سوم - آزمون نهایی",
+        desc: "فایل صوتی آزمون شهریور ۱۴۰۲ درباره جایگزینی سوخت‌های فسیلی با منابع پاک تجدیدپذیر.",
+        file: "Shahrivar1402.mp3",
+        mime: "audio/mpeg",
+        section: "L3"
+      },
+
+      // Additional Archive
+      "Khordad1398": { title: "آزمون نهایی خرداد ۱۳۹۸", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی خرداد ۹۸", file: "Khordad1398.mp3", mime: "audio/mpeg", section: "Archive" },
+      "Shahrivar1398": { title: "آزمون نهایی شهریور ۱۳۹۸", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی شهریور ۹۸", file: "Shahrivar1398.mp3", mime: "audio/mpeg", section: "Archive" },
+      "Dey1398": { title: "آزمون نهایی دی ۱۳۹۸", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی دی ۹۸", file: "Dey1398.mp3", mime: "audio/mpeg", section: "Archive" },
+      "Khordad1399": { title: "آزمون نهایی خرداد ۱۳۹۹", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی خرداد ۹۹", file: "Khordad1399.mp3", mime: "audio/mpeg", section: "Archive" },
+      "Shahrivar1399": { title: "آزمون نهایی شهریور ۱۳۹۹", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی شهریور ۹۹", file: "Shahrivar1399.mp3", mime: "audio/mpeg", section: "Archive" },
+      "Dey1399": { title: "آزمون نهایی دی ۱۳۹۹", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی دی ۹۹", file: "Dey1399.mp3", mime: "audio/mpeg", section: "Archive" },
+      "Shahrivar1403": { title: "آزمون نهایی شهریور ۱۴۰۳", category: "آرشیو نهایی", desc: "فایل صوتی آزمون نهایی شهریور ۱۴۰۳", file: "Shahrivar1403.mp3", mime: "audio/mpeg", section: "Archive" },
+    };
+
+    function getAudioUrl(fileName) {
+      // Direct relative path for GitHub Pages
+      return 'audio/' + fileName;
+    }
+
+    function selectTrack(trackId, autoPlay = true) {
+      const data = tracks[trackId] || tracks["Khordad1402"];
+      document.getElementById("currentTitle").innerText = data.title;
+      document.getElementById("currentCategory").innerText = data.category;
+      document.getElementById("currentDesc").innerText = data.desc;
+
+      const audioUrl = getAudioUrl(data.file);
+      const player = document.getElementById("audioPlayer");
+      const source = document.getElementById("audioSource");
+      const dlLink = document.getElementById("downloadLink");
+
+      source.src = audioUrl;
+      source.type = data.mime;
+      dlLink.href = audioUrl;
+      dlLink.setAttribute("download", data.file);
+
+      player.load();
+      if (autoPlay) {
+        player.play().catch(e => console.log("Auto-play prevented by browser policy:", e));
+      }
+
+      // Update active list style
+      document.querySelectorAll(".track-item").forEach(el => {
+        el.classList.toggle("active", el.dataset.track === trackId);
+      });
+
+      // Update URL without reload
+      const newUrl = window.location.pathname + "?track=" + trackId;
+      window.history.replaceState({ track: trackId }, "", newUrl);
+    }
+
+    function setSpeed(rate) {
+      const player = document.getElementById("audioPlayer");
+      player.playbackRate = rate;
+      document.querySelectorAll(".speed-btn").forEach(btn => {
+        btn.classList.toggle("active", parseFloat(btn.innerText) === rate);
+      });
+    }
+
+    // Build Catalog
+    function populateCatalog() {
+      for (const [key, item] of Object.entries(tracks)) {
+        const targetContainer = document.getElementById("list" + item.section);
+        if (!targetContainer) continue;
+
+        const row = document.createElement("div");
+        row.className = "track-item";
+        row.dataset.track = key;
+        row.onclick = () => {
+          selectTrack(key, true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        row.innerHTML = `
+          <div class="track-item-info">
+            <span class="track-item-name">${item.title}</span>
+            <span class="track-item-sub">${item.category}</span>
+          </div>
+          <div class="play-icon">▶</div>
+        `;
+        targetContainer.appendChild(row);
+      }
+    }
+
+    // Initial Load
+    window.addEventListener("DOMContentLoaded", () => {
+      populateCatalog();
+      const params = new URLSearchParams(window.location.search);
+      const reqTrack = params.get("track") || params.get("t");
+      
+      // Alias normalization
+      let initialKey = "Khordad1402";
+      if (reqTrack) {
+        // Remove prefixes like L1_Exam_ if present
+        let clean = reqTrack.replace(/^L\d+_Exam_/, "");
+        if (tracks[reqTrack]) initialKey = reqTrack;
+        else if (tracks[clean]) initialKey = clean;
+        else if (reqTrack.includes("Dey1404")) initialKey = "Dey1403";
+      }
+      selectTrack(initialKey, !!reqTrack);
+    });
+  </script>
+</body>
+</html>
